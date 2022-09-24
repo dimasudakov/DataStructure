@@ -22,7 +22,7 @@ class LeeAlgorithm {
      * sx, sy - координаты начала
      * fx, fy - координаты финиша
      *
-     * (v[i][j] == -1) - в клетку нельзя пройти
+     * (v[i][j] == 1) - в клетку нельзя пройти
      *
      * возвращает минимальное расстояние и путь от начала до финиша
      *
@@ -52,6 +52,7 @@ public:
         // обычный поиск в ширину на матрице
         queue<pair<int, int>> q;
         q.push({sx, sy});
+        dist[sx][sy] = 0;
         while(q.size() != 0) {
             pair<int, int> cur = q.front();
             q.pop();
@@ -60,9 +61,9 @@ public:
                 int ny = cur.second + yy[i];
 
                 // если не вышли за границы матрицы и вершина проходима и еще не посещена то идем в нее
-                if(0 <= nx && nx < n && 0 <= ny && ny < m && v[nx][ny] != -1 && dist[nx][ny] == -1) {
+                if(0 <= nx && nx < n && 0 <= ny && ny < m && v[nx][ny] != 1 && dist[nx][ny] == -1) {
                     dist[nx][ny] = dist[cur.first][cur.second] + 1;
-                    prev[nx][ny] = i;
+                    prev[nx][ny] = i + 1;
                     q.push({nx, ny});
                 }
             }
@@ -81,9 +82,9 @@ public:
                 fx++;
             } else if(prev[fx][fy] == 2) {
                 fy--;
-            } else if(prev[fx][fy] == 1) {
+            } else if(prev[fx][fy] == 3) {
                 fx--;
-            } else if(prev[fx][fy] == 1) {
+            } else if(prev[fx][fy] == 4) {
                 fy++;
             }
         }
