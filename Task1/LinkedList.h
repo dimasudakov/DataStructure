@@ -12,6 +12,7 @@
 
 using namespace std;
 
+// двунаправленный связный список
 class LinkedList {
 
 private:

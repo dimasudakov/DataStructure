@@ -37,6 +37,7 @@ class LeeAlgorithm {
 public:
 
     pair<int, vector<int>> static run(vector<vector<int>> &v, int sx, int sy, int fx, int fy) {
+        // n, m - размерности матрицы
         int n = v.size();
         int m = v[0].size();
 
@@ -50,6 +51,7 @@ public:
         vector<int> yy = {0, 1, 0, -1};
 
         // обычный поиск в ширину на матрице
+        // очередь хранит индесы вершины
         queue<pair<int, int>> q;
         q.push({sx, sy});
         dist[sx][sy] = 0;
@@ -60,7 +62,7 @@ public:
                 int nx = cur.first + xx[i];
                 int ny = cur.second + yy[i];
 
-                // если не вышли за границы матрицы и вершина проходима и еще не посещена то идем в нее
+                // если не вышли за границы матрицы и вершина проходима и еще не посещена то идем в нее (добавляем в очередь)
                 if(0 <= nx && nx < n && 0 <= ny && ny < m && v[nx][ny] != 1 && dist[nx][ny] == -1) {
                     dist[nx][ny] = dist[cur.first][cur.second] + 1;
                     prev[nx][ny] = i + 1;
@@ -73,9 +75,10 @@ public:
         if(dist[fx][fy] == -1) return {-1, vector<int>()};
 
         int ans = dist[fx][fy];
+        // минимальный путь от старта до финиша
         vector<int> path;
 
-        // восстанавливаем путь
+        // восстанавливаем путь начиная с конца (добавляем направление последнего движения и делаем шаг назад пока не дошли до стартовой вершины)
         while(sx != fx || sy != fy) {
             path.push_back(prev[fx][fy]);
             if(prev[fx][fy] == 1) {
